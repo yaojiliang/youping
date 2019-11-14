@@ -1,0 +1,62 @@
+{% extends 'qiantai/index.html' %}
+{% block title %}
+    <title>手机</title>
+{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            {% for good in page_phone %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                        <img src="http://127.0.0.1:8000/media/{{ good.goods_img }}" alt="坚果">
+                        <div class="caption">
+                            <h3>{{ good.goods_name }}</h3>
+                            <p>{{ good.goods_desc|truncatechars:15 }}</p>
+                            <p>市场价：{{ good.market_price }}</p>
+                            <p>
+                                <a href="/qiantai/detail?phone={{ good.pk }}" class="btn btn-primary"
+                                   role="button">查看详细</a>
+                                <a href="/qiantai/add_shoppingcar?phone={{ good.pk }}" class="btn btn-default" role="button">加入购物车</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor page_phone %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <nav aria-label="Page navigation-lg">
+                <ul class="pagination pull-right">
+                    {% if page_phone.has_previous %}
+                        <li><a href="?page={{ page_phone.previous_page_number }}">上一页</a></li>
+                    {% else %}
+                        <li class="disabled"><a href="#">上一页</a></li>
+                    {% endif %}
+
+                    {% for page in page_phone.paginator.page_range %}
+                        {% if page == page_phone.number %}
+                            <li class="active"><a>{{ page }}</a></li>
+                        {% else %}
+                            <li><a href="?page={{ page }}">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor page_phone.page_range %}
+
+                    {% if page_phone.has_next %}
+                        <li><a href="?page={{ page_phone.next_page_number }}">下一页</a></li>
+                    {% else %}
+                        <li class="disabled"><a href="#">下一页</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+{% endblock content %}
+<script>
+
+
+</script>
+

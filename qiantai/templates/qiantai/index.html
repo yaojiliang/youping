@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+        <title>首页</title>
+    {% endblock title %}
+
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <style>
+        .my_color > span {
+            color: black;
+            font-size: 20px;
+        }
+
+        .my_color > p > a {
+            color: gray;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .ishide {
+            display: none;
+        }
+
+        .isshow {
+            display: inline-block;
+        }
+
+        .l2 {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+<!-- 导航栏 -->
+<div class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand active" href="/qiantai/">优品电子 <span class="glyphicon glyphicon-shopping-cart"
+                                                                               aria-hidden="true"></span></a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/qiantai/phone">手机 <span class="sr-only">(current)</span></a></li>
+                        <li><a href="/qiantai/pad">平板</a></li>
+                        <li><a href="/qiantai/computer">电脑</a></li>
+                    </ul>
+                    <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">提交</button>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right" id="l1">
+                        <li class="l1">
+                            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal"
+                                    data-target="#myModal1">
+                                登录
+                            </button>
+                        </li>
+                        <li class="l1">
+                            <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
+                                    data-target="#myModal2">
+                                注册
+                            </button>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">购物车 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                你还没有选购商品
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right l2" id="l2">
+                        <li>
+                            <button type="button" class="btn btn-default btn-lg" id="btn_user">
+                                用户：
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-success btn-lg" id="btn_logout">
+                                注销
+                            </button>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">购物车 <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                空空如也
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+</div>
+<!--myModeal2注册-->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">注册</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username" class="control-label">用户名</label>
+                        <input type="text" class="form-control" required id="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="control-label">密码:</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="r_password" class="control-label">确认密码:</label>
+                        <input type="password" class="form-control" id="r_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone1" class="control-label">手机号:</label>
+                        <input type="text" class="form-control" id="phone1" required>
+                        <button id="btn_check">发送验证码</button>
+                        <span class="glyphicon glyphicon-saved ishide"></span>
+                        <br>
+                        <label for="check_isnum" class="control-label">填写验证码:</label>
+                        <input type="text" class="form-control" id="check_isnum" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="control-label">邮箱:</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                </button>
+                <button type="button" class="btn btn-success" id="register">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--mymodel1登录-->
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">登录</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home"
+                                                                  aria-controls="home"
+                                                                  role="tab" data-toggle="tab">用户名登录</a>
+                        </li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile"
+                                                   role="tab" data-toggle="tab">手机号登录</a></li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">
+                            <form>
+                                <div class="form-group">
+                                    <label for="login_username"
+                                           class="control-label">用户名</label>
+                                    <input type="text" class="form-control" id="login_username">
+                                </div>
+                                <div class="form-group">
+                                    <label for="login_password"
+                                           class="control-label">密码:</label>
+                                    <input type="password" class="form-control"
+                                           id="login_password">
+
+                                </div>
+                            </form>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <form>
+                                <div class="form-group">
+                                    <label for="login_phone"
+                                           class="control-label">手机号登录:</label>
+                                    <input type="text" class="form-control" id="login_phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="check_num" class="control-label">验证码:</label>
+                                    <input type="text" class="form-control" id="check_num">
+                                    <button id="btn_check"></button>
+                                    <span class="ishide"></span>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                </button>
+                <button type="button" class="btn btn-primary" id="login">登录</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block content %}
+    <!-- 巨幕 -->
+    <div class="container">
+        <div class="row">
+            <div class="jumbotron">
+                <h1>优品电子商城</h1>
+                <p>我们意在打造一个优质的电子商城平台，我们意在推荐价格最低、性价比最高的的电子产品给亲爱的您</p>
+                <p><a class="btn btn-primary btn-lg" href="#" role="button">了解更多</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- 轮播图 -->
+    <div class="container">
+        <div class="row">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img src="/static/images/hongmo.jpeg" alt="红魔">
+                        <div class="carousel-caption">
+                            努比亚&nbsp;&nbsp;红魔
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="/static/images/yijia.jpeg" alt="一加">
+                        <div class="carousel-caption">
+                            一加&nbsp;&nbsp;pro7
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="/static/images/jianguo.jpeg" alt="坚果">
+                        <div class="carousel-caption">
+                            坚果&nbsp;&nbsp;pro3
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+<div class="container">
+    <div class="row">
+        <hr>
+        <div class="col-lg-3 my_color">
+            <span>选购及了解</span>
+            <p><a href="">一加</a></p>
+            <p><a href="">锤子</a></p>
+            <p><a href="">努比亚</a></p>
+            <p><a href="">小辣椒</a></p>
+            <p><a href="">其他</a></p>
+        </div>
+        <div class="col-lg-3 my_color">
+            <span>联系我们</span>
+            <p><a href="">撩妹子(客服)</a></p>
+            <p><a href="">撩汉子(客服)</a></p>
+
+        </div>
+        <div class="col-lg-3 my_color">
+            <span>优品的价值观</span>
+            <p><a href="">辅助环境</a></p>
+            <p><a href="">环境责任</a></p>
+            <p><a href="">隐私</a></p>
+            <p><a href="">供应商责任</a></p>
+        </div>
+        <div class="col-lg-3 my_color">
+            <span>关于优品</span>
+            <p><a href="">活动</a></p>
+            <p><a href="">帮助</a></p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <hr>
+        aid07&copy;2019 优品store保留所有权利．&nbsp;&nbsp;&nbsp;
+        隐私政策|使用条款|销售政策|法律信息
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+
+<script>
+    token = window.localStorage.getItem('user_token');
+    user = window.localStorage.getItem('user_name');
+    if (user&&token) {
+        $("#l2").show();
+        $("#l1").hide();
+        var s='欢迎登录:'+user;
+        $("#btn_user").text(s)
+    }else {
+        $('#l1').show();
+        $('#l2').hide()
+    }
+
+    $(function () {
+        var username = $('#username');
+        var password = $('#password');
+        var r_password = $('#r_password');
+        var phone = $('#phone1');
+        var check_phone = $('#check_isnum');
+        var email = $('#email');
+        var login_username = $('#login_username');
+        var login_password = $('#login_password');
+        var login_phone = $('#login_phone');
+        var check_num = $('#check_num');
+
+        //注册
+        $('#register').click(function () {
+            $.ajax({
+                url: '/qiantai/register/',
+                dataType: 'json',
+                // contentType
+                //contentType:"application/json",
+                type: 'post',
+                data: {
+                    username: username.val(),
+                    password: password.val(),
+                    r_password: r_password.val(),
+                    phone: phone.val(),
+                    check_phone: check_phone.val(),
+                    email: email.val(),
+                    csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
+                },
+                success: function (response) {
+                    if (response.code == 200) {
+                        window.localStorage.setItem('user_token', response.data.token);
+                        window.localStorage.setItem('user_name', response.username);
+                        $("#l2").show();
+                        $("#l1").hide();
+                        var s='欢迎登录:'+response.username;
+                        $("#btn_user").text(s);
+                        $('#myModal2').modal('hide');
+                        //window.location.href('/qiantai/')
+
+
+                    } else {
+                        //console.log(response.error)
+                        alert(response.data)
+                    }
+                }
+            })
+        });
+
+        // 注册－＞发送验证码
+        $('#btn_check').click(function () {
+            // alert(phone.val());
+            $.ajax({
+                url: '/qiantai/check_is_num/',
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    phone: phone.val()
+                },
+                success: function (response) {
+                    //console.log(response)
+                    if (response.code == 200) {
+                        $(".ishide").toggleClass('isshow')
+                        //$(".ishide").text('已发送')
+                    }
+
+                }
+            })
+        });
+
+        $('#login').click(function () {
+            $.ajax({
+                url: '/qiantai/login/',
+                type: 'post',
+                dataType: 'json',
+                data: {
+                    login_username: login_username.val(),
+                    login_password: login_password.val(),
+                    login_phone: login_phone.val(),
+                    check_num: check_num.val(),
+                    csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
+                },
+                success: function (response) {
+                    if (response.code == 200) {
+                        //console.log(response.data.token,response.username)
+                        window.localStorage.setItem('user_token', response.data.token);
+                        window.localStorage.setItem('user_name', response.username);
+                        $("#l2").show();
+                        $("#l1").hide();
+                        var s='欢迎登录:'+response.username;
+                        $("#btn_user").text(s);
+                        $('#myModal1').modal('hide');
+
+                    } else {
+                        alert(response.data)
+                    }
+                }
+            })
+        });
+
+        $('#btn_logout').click(function () {
+            $.ajax({
+                url:'/qiantai/logout/',
+                type:'get',
+                data:{
+                    token:window.localStorage.getItem('user_token'),
+                    username:window.localStorage.getItem('user_name')
+                },
+                success:function (response) {
+                    if(response.code==200){
+                        window.localStorage.clear()
+                        $("#l2").hide();
+                        $("#l1").show();
+                    }else {
+                        console.log(response.data)
+                    }
+                }
+
+
+
+            })
+        })
+
+    })
+
+
+</script>
+
+
+</html>
